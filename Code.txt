@@ -1,0 +1,54 @@
+# Importing pandas and matplotlib
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read in the Netflix CSV as a DataFrame
+netflix_df = pd.read_csv("netflix_data.csv")
+
+
+# спершу запусти попередній блок коду.
+
+# маю можливість поглянути на стовбці, з якими матиму справу
+# print(netflix_df.columns)
+
+# встановлюю умову, що фільми були релізнуті між 1990 та 1999 рр.
+umova = (netflix_df['release_year'] >= 1990) & (netflix_df['release_year'] <= 1999)
+
+# застосовую умову вище.
+netflix_df_1990 = netflix_df[umova]
+
+# виділяю стовбець з тривалістю фільмів 90-х рр.
+netflix_df_1990['duration']
+
+# визначаю найчастіше повторювану тривалість фільму = відповідь на перше запитання.
+duration = netflix_df_1990['duration'].mode()[0] # ВІДПОВІДЬ 1
+
+# просто друкую відповідь на питання №1.
+print(duration)
+
+
+
+
+
+# друга частина роботи.
+# фільтрую - вибираю фільми 90-х років за умовою, яку раніше написав.
+short_movies = netflix_df[umova]
+
+# пишу умову №2, яка фільтрує фільми за тривалістю "менше 90 хв".
+umova_2 = (short_movies['duration'] < 90)
+short_movies = short_movies[umova_2]
+
+# пишу умову №3, яка фільтрує фільми за типом "Movie".
+umova_3 = (short_movies['type'] == 'Movie')
+short_movies = short_movies[umova_3]
+
+# пишу умову №4, яка фільтрує фільми за жанром "Action".
+umova_4 = (short_movies['genre'] == 'Action')
+short_movies = short_movies[umova_4]
+
+# обираю один зі стовбців DataFrame-у і задіюю 'count', щоб порахувати к-ть спостережень.
+# це є відповіддю на питання №2.
+short_movie_count = short_movies['duration'].count()
+
+# просто друкую відповідь на питання №2.
+print(short_movie_count)
